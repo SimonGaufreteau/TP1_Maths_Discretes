@@ -43,22 +43,22 @@ public class Algorithms {
 	/**
 	 * Implémentation de l'algorithme de l'exponentiation modulaire : a^k mod n.
 	 */
-	public static int ExpMod(int a, int k, int n) {
-		BigInteger bigA = BigInteger.valueOf(a);
-		BigInteger p;
-		for (p=BigInteger.ONE; k>0; k/=2) {
+	public static double ExpMod(long a, long k, long n) {
+		long p;
+		for (p=1; k>0; k/=2) {
 			if(k%2 != 0)
-				p = (p.multiply(bigA)).mod(BigInteger.valueOf(n)) ;
-			bigA = (bigA.multiply(bigA)).mod(BigInteger.valueOf(n)) ;
+				p = (p*a)%n ;
+			a = (a*a)%n;
 		}
-		return p.intValue();
+		return p;
 	}
 
 	/**
 	 * Test de Fermat sur n
 	 */
 	public static boolean testFermat(int n){
-		int test =  ExpMod(2,n-1,n);
+		//double test=Math.pow(2,n-1);
+		double test =  ExpMod(2,n-1,n);
 		return test%n==1;
 	}
 

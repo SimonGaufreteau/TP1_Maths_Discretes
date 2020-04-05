@@ -1,8 +1,9 @@
 import java.util.Random;
+import java.util.Timer;
 
 public class Main {
 	public static void main(String[] args) {
-
+		final long nanoToSecond = (long) Math.pow(10,9);
 		/*int a=120;
 		int b=12;
 		int[] tab= Algorithms.euclideEtendu(a,b);
@@ -22,14 +23,22 @@ public class Main {
 			}
 		}
 */
-		int borneNbPremiers = 10;
+		int borneNbPremiers = 25;
 		for(int i=0;i<=borneNbPremiers;i++){
+			System.out.print("----- i = "+i+" -----\n");
 			int borneInf = (int)Math.pow(2,i);
 			int borneSup = (int)Math.pow(2,i+1);
+			long time = System.nanoTime();
 			int nombrePremiersResultat = Algorithms.nombrePremiersNaif(i);
+			long tempsNaif = System.nanoTime()-time;
+			System.out.println("Temps d'éxecution méthode naive : "+(double)tempsNaif/nanoToSecond+" s");
+			time = System.nanoTime();
 			int nombrePermiersFermat = Algorithms.nombrePremiersFermat(i);
+			long tempsFermat = System.nanoTime()-time;
+			System.out.println("Temps d'éxecution méthode Fermat : "+(double)tempsFermat/nanoToSecond+" s");
+			System.out.println("Différence de temps d'éxecution : "+(double)(tempsNaif-tempsFermat)/nanoToSecond+" s");
 			System.out.println(String.format("Nombre de premiers pour i=%d (entre %d et %d) : %d",i,borneInf,borneSup,nombrePremiersResultat));
-			System.out.println(String.format("Proportion de nombres premiers : %d %%",nombrePremiersResultat*100/(borneSup-borneInf)));
+			System.out.println(String.format("Proportion de nombres premiers : %f %%",	(double)nombrePremiersResultat*100/(borneSup-borneInf)));
 			System.out.println(String.format("Nombre de premiers pour i=%d avec Fermat (entre %d et %d) : %d",i,borneInf,borneSup,nombrePermiersFermat));
 			System.out.println(String.format("Nombre de non premiers détectés avec Fermat : %d",nombrePermiersFermat-nombrePremiersResultat));
 			System.out.println(String.format("Taux d'erreur de Fermat : %f %%",(double)((nombrePermiersFermat-nombrePremiersResultat)*100)/(borneSup-borneInf)));
