@@ -1,7 +1,10 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Random;
 
 public class Algorithms {
+	public static Random random =  new Random();
 
 	/**
 	 * Implémentation de l'algorithme d'Euclide étendu vu en cours.
@@ -43,7 +46,7 @@ public class Algorithms {
 	/**
 	 * Implémentation de l'algorithme de l'exponentiation modulaire : a^k mod n.
 	 */
-	public static double ExpMod(long a, long k, long n) {
+	public static long ExpMod(long a, long k, long n) {
 		long p;
 		for (p=1; k>0; k/=2) {
 			if(k%2 != 0)
@@ -104,4 +107,17 @@ public class Algorithms {
 		}
 		return tab;
 	}
+
+
+	public static int genPremiers(int k) {
+		int result;
+		do{
+			int max = (int)Math.pow(2,k)-1;
+			int min = (int)Math.pow(2,k-1);
+			result = random.nextInt(max-min)+min;
+		}while(!testFermat(result));
+		return result;
+	}
+
+
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 
@@ -23,6 +24,7 @@ public class Main {
 			}
 		}
 */
+		/*
 		int borneNbPremiers = 25;
 		for(int i=0;i<=borneNbPremiers;i++){
 			System.out.print("----- i = "+i+" -----\n");
@@ -44,8 +46,13 @@ public class Main {
 			System.out.println(String.format("Taux d'erreur de Fermat : %f %%",(double)((nombrePermiersFermat-nombrePremiersResultat)*100)/(borneSup-borneInf)));
 			System.out.println("Faux positifs : "+Algorithms.diffPremiersFermat(i));
 			System.out.println("\n");
-		}
+		}*/
 
+		//Question 7 : GenPremiers
+		int k=25;
+		int generatedInt = Algorithms.genPremiers(k);
+		System.out.println("Premier généré : "+generatedInt);
+		System.out.println("Avec la méthode naive, ce nombre est "+ (Algorithms.testPrimaliteNaif(generatedInt)?"premier":"non premier"));
 	}
 
 }
