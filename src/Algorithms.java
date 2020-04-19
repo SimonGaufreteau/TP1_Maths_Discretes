@@ -123,12 +123,20 @@ public class Algorithms {
 		return result;
 	}
 
-	public static Pair<Double,Double> phiToFact(int n,int phi){
-		int x = n+1-phi;
-		int delta = (int) (Math.pow(x,2)-4*n);
-		double p = (-x-Math.sqrt(delta))/-2;
-		double q = (-x+Math.sqrt(delta))/-2;
-		return new Pair<>(p, q);
+	/**
+	 * Retourne la factorisation d'un nombre n à partir du nombre d'euler correspondant phi.
+	 * @return Une paire contenant la décomposition de n.
+	 */
+	public static Pair<Integer,Integer> phiToFact(int n,int phi){
+		for(int i=0;i<n;i++){
+			for(int j=i+1;j<n;j++){
+				if(i*j==n && (i-1)*(j-1)==phi) return new Pair<>(i,j);
+			}
+		}
+		return new Pair<>(1,n);
 	}
+
+
+	//public boolean verifPhi(p,q)
 
 }
