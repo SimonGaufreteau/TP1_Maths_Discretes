@@ -150,4 +150,14 @@ public class Algorithms {
 		return phi==(p-1)*(q-1);
 	}
 
+
+	//TODO : Explication de la question 10 (voir papier)
+
+	public static Pair<Integer,Long> verifRSA(int n,int e,int d){
+		int x;
+		do{
+			x = random.nextInt(n*n);
+		} while (euclideEtendu(x,n)[0]!=1);
+		return new Pair<>(x, ExpMod(x, e * d,n));
+	}
 }
