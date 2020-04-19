@@ -109,6 +109,10 @@ public class Algorithms {
 	}
 
 
+	/**
+	 * @param k Nombre de bits
+	 * @return Un nombre entier de k bits premier (vérifié en utilisant le test de Fermat)
+	 */
 	public static int genPremiers(int k) {
 		int result;
 		do{
@@ -119,5 +123,12 @@ public class Algorithms {
 		return result;
 	}
 
+	public static Pair<Double,Double> phiToFact(int n,int phi){
+		int x = n+1-phi;
+		int delta = (int) (Math.pow(x,2)-4*n);
+		double p = (-x-Math.sqrt(delta))/-2;
+		double q = (-x+Math.sqrt(delta))/-2;
+		return new Pair<>(p, q);
+	}
 
 }

@@ -49,10 +49,16 @@ public class Main {
 		}*/
 
 		//Question 7 : GenPremiers
-		int k=25;
+		/*int k=25;
 		int generatedInt = Algorithms.genPremiers(k);
 		System.out.println("Premier généré : "+generatedInt);
 		System.out.println("Avec la méthode naive, ce nombre est "+ (Algorithms.testPrimaliteNaif(generatedInt)?"premier":"non premier"));
+	*/
+		//Question 8 : PhiToFact
+		int n= 45;
+		int phi = 24;
+		Pair<Double, Double> phiToFact = Algorithms.phiToFact(n,phi);
+		System.out.println(String.format("Resultat de PhiToFact avec n=%d et phi(n)=%d --> %f*%f=%f",n,phi,phiToFact.getKey(),phiToFact.getValue(),phiToFact.getKey()*phiToFact.getValue()));
 	}
 
 }
