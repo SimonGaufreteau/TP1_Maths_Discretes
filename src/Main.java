@@ -59,6 +59,11 @@ public class Main {
 		int phi = 24;
 		Pair<Integer, Integer> phiToFact = Algorithms.phiToFact(n,phi);
 		System.out.println(String.format("Resultat de PhiToFact avec n=%d et phi(n)=%d --> %d*%d=%d",n,phi,phiToFact.getKey(),phiToFact.getValue(),phiToFact.getKey()*phiToFact.getValue()));
+
+		//Question 9 : VerifPhi
+		int p=7;
+		int q=5;
+		System.out.println(String.format("Resultat de verifPhi avec p=%d et q=%d (n=%d) : %b",p,q,p*q,Algorithms.verifPhi(p,q)));
 	}
 
 }

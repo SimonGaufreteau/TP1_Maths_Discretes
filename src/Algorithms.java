@@ -137,6 +137,17 @@ public class Algorithms {
 	}
 
 
-	//public boolean verifPhi(p,q)
+	/**
+	 * Vérifie que phi(p*q) = (p-1)*(q-1).
+	 */
+	public static boolean verifPhi(int p,int q){
+		int n=p*q;
+		int phi=0;
+		for(int i=1;i<n;i++){
+			if(euclideEtendu(i,n)[0]==1)phi++;
+		}
+		System.out.println(phi);
+		return phi==(p-1)*(q-1);
+	}
 
 }
