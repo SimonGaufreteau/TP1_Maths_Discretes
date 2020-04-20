@@ -1,5 +1,7 @@
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -223,7 +225,7 @@ public class Algorithms {
 		return ExpMod(m1,d,n1);
 	}
 
-	public static long a3(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
+	public static BigInteger a3(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
 		BigInteger n = new BigInteger(String.valueOf(n1));
 		n= n.multiply(BigInteger.valueOf(n2));
 		n= n.multiply(BigInteger.valueOf(n3));
@@ -236,12 +238,12 @@ public class Algorithms {
 		printResultEuclideEtendu(BigInteger.valueOf(n2),nc2,euclideEtendu(BigInteger.valueOf(n2), nc2));
 		printResultEuclideEtendu(BigInteger.valueOf(n3),nc3,euclideEtendu(BigInteger.valueOf(n3), nc3));*/
 
-		BigInteger e1 = euclideEtendu(BigInteger.valueOf(n1), nc1)[2].multiply(nc1);
-		BigInteger e2 = euclideEtendu(BigInteger.valueOf(n2), nc2)[2].multiply(nc2);
-		BigInteger e3 = euclideEtendu(BigInteger.valueOf(n3), nc3)[2].multiply(nc3);
+		BigInteger e1 = (euclideEtendu(BigInteger.valueOf(n1), nc1)[2]).multiply(nc1);
+		BigInteger e2 = (euclideEtendu(BigInteger.valueOf(n2), nc2)[2]).multiply(nc2);
+		BigInteger e3 = (euclideEtendu(BigInteger.valueOf(n3), nc3)[2]).multiply(nc3);
 
 		BigInteger m =(e1.multiply(BigInteger.valueOf(m1))).add(e2.multiply(BigInteger.valueOf(m2)).add(e3.multiply(BigInteger.valueOf(m3))));
-		return m.mod(n).longValue();
+		return m.mod(n);
 	}
 
 
@@ -295,4 +297,34 @@ public class Algorithms {
 		return compteur;
 	}
 
+
+	public static BigDecimal NthRoot(BigInteger num, int n)
+	{
+		ArrayList<BigDecimal> arr = new ArrayList<BigDecimal>();
+		Integer i = 1;
+		Integer j = 0;
+		BigDecimal[] tArray = new BigDecimal[5];
+		BigDecimal N = new BigDecimal(n);
+		BigDecimal A = new BigDecimal(num);
+		arr.add(0,A);
+
+		while(true)
+		{
+			tArray[0] = (arr.get(i-1).multiply(new BigDecimal(n-1)));
+			tArray[1] = ((arr.get(i-1)).pow(n-1));
+			tArray[2] = A.divide(tArray[1],6, RoundingMode.FLOOR);
+			tArray[3] = tArray[0].add(tArray[2]);
+			tArray[4] = tArray[3].divide(N,6,RoundingMode.FLOOR);
+
+			arr.add(i,tArray[4]);
+			i = i + 1;
+
+			if ((arr.get(i-1)).compareTo(arr.get(i-2)) == 0)
+			{
+				break;
+			}
+		}
+
+		return arr.get(i-1);
+	}
 	}

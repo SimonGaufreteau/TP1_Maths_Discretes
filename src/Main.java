@@ -189,9 +189,9 @@ public class Main {
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
 		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p3, p4, p5, p6));
 		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
-		/*Algorithms.printResultEuclideEtendu(n1,n2,Algorithms.euclideEtendu(n1, n2));
-		Algorithms.printResultEuclideEtendu(n2,n3,Algorithms.euclideEtendu(n2, n3));
-		Algorithms.printResultEuclideEtendu(n1,n3,Algorithms.euclideEtendu(n1, n3));*/
+		/*Algorithms.printResultEuclideEtendu(e,phi1,Algorithms.euclideEtendu(e, phi1));
+		Algorithms.printResultEuclideEtendu(e,phi2,Algorithms.euclideEtendu(e, phi2));
+		Algorithms.printResultEuclideEtendu(e,phi3,Algorithms.euclideEtendu(e, phi3));*/
 
 		System.out.println("e=" + e);
 
@@ -200,9 +200,10 @@ public class Main {
 		m3 = (int) Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
-		long res = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
-		System.out.println("A3 --> m = "+((long)Math.pow(res,1.0/3)+1));
+		BigInteger res = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
+		System.out.println("A3 --> m = "+Algorithms.NthRoot(res,3).longValue());
 		System.out.println("m=" + m);
+
 
 		// Question 14
 		System.out.println("\nRésultat de la question 14");
