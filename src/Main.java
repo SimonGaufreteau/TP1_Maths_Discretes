@@ -55,9 +55,9 @@ public class Main {
 		System.out.println("Avec la méthode naive, ce nombre est "+ (Algorithms.testPrimaliteNaif(generatedInt)?"premier":"non premier"));
 	*/
 		//Question 8 : PhiToFact
-		int n = 35;
+		/*int n = 35;
 		int phi = 24;
-		/*Pair<Integer, Integer> phiToFact = Algorithms.phiToFact(n,phi);
+		Pair<Integer, Integer> phiToFact = Algorithms.phiToFact(n,phi);
 		System.out.println(String.format("Resultat de PhiToFact avec n=%d et phi(n)=%d --> %d*%d=%d",n,phi,phiToFact.getKey(),phiToFact.getValue(),phiToFact.getKey()*phiToFact.getValue()));
 
 		//Question 9 : VerifPhi
@@ -66,7 +66,7 @@ public class Main {
 		System.out.println(String.format("Resultat de verifPhi avec p=%d et q=%d (n=%d) : %b",p,q,p*q,Algorithms.verifPhi(p,q)));*/
 
 		//Question 10 : verifRSA
-		Random random = new Random();
+		/*Random random = new Random();
 		int e;
 		int[] res;
 		do{
@@ -77,7 +77,13 @@ public class Main {
 		Pair<Integer, Long> pair=Algorithms.verifRSA(n,e,d);
 		System.out.println(String.format("Verification de la question 10. e*d mod phi = %d * %d mod %d = %d",e,d,phi,(e*d)%phi));
 		System.out.println(String.format("Résultat : %d",pair.getValue()));
-		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),n,pair.getKey()%n));
+		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),n,pair.getKey()%n));*/
+
+		//Question 11 : A1
+		int k=11;
+		System.out.println("Resultat : m="+Algorithms.a1(k));
+
+
 	}
 
 }
