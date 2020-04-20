@@ -1,6 +1,8 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 	public static void main(String[] args) {
@@ -81,7 +83,7 @@ public class Main {
 		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),n,pair.getKey()%n));*/
 
 		//Question 11 : A1
-		int k=10;
+		int k=15;
 		System.out.println("Résultat de la question 11");
 		int p1 = Algorithms.genPremiers(k);
 		int p2 = Algorithms.genPremiers(k);
@@ -91,25 +93,25 @@ public class Main {
 		int p6 = Algorithms.genPremiers(k);
 		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p3, p4, p5, p6));
 
-		int n1 = p1 * p2;
-		int n2 = p3 * p4;
-		int n3 = p5 * p6;
+		long n1 = p1 * p2;
+		long n2 = p3 * p4;
+		long n3 = p5 * p6;
 
-		int n = Math.min(Math.min(n1, n2), n3);
+		long n = Math.min(Math.min(n1, n2), n3);
 		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
 
 		int phi1 = (p1-1)*(p2-1);
 		int phi2 = (p3-1)*(p4-1);
 		int phi3 = (p5-1)*(p6-1);
 
-		int m;
+		long m;
 		do {
-			m = random.nextInt(n - 2) + 1;
+			m = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
 
-		int e;
+		long e;
 		do {
-			e = random.nextInt(n - 2) + 1;
+			e = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
 		System.out.println("e=" + e);
 
@@ -119,7 +121,7 @@ public class Main {
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
 		System.out.println("m=" + m);
-		System.out.println(String.format("A1 --> m = %d",Algorithms.a1(n1,n2,n3,e,m1,m2,m3)));
+		//System.out.println(String.format("A1 --> m = %d",Algorithms.a1(n1,n2,n3,e,m1,m2,m3)));
 
 
 		//Question 12
@@ -142,11 +144,11 @@ public class Main {
 		phi3 = (p1-1)*(p6-1);
 
 		do {
-			m = random.nextInt(n - 2) + 1;
+			m = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
 
 		do {
-			e = random.nextInt(n - 2) + 1;
+			e = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
 		System.out.println("e=" + e);
 
@@ -181,7 +183,7 @@ public class Main {
 			phi3 = (p5-1)*(p6-1);
 
 			do {
-				m = random.nextInt(n - 2) + 1;
+				m = ThreadLocalRandom.current().nextLong(n-1);
 			} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
 
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
@@ -199,8 +201,46 @@ public class Main {
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
 		long res = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
-		System.out.println("m=" + m);
 		System.out.println("A3 --> m = "+((long)Math.pow(res,1.0/3)+1));
+		System.out.println("m=" + m);
+
+		// Question 14
+		System.out.println("\nRésultat de la question 14");
+		p1 = Algorithms.genPremiers(k);
+		p2 = Algorithms.genPremiers(k);
+		p3 = Algorithms.genPremiers(k);
+		p4 = Algorithms.genPremiers(k);
+		p5 = Algorithms.genPremiers(k);
+		p6 = Algorithms.genPremiers(k);
+		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p3, p4, p5, p6));
+
+		n1 = p1 * p2;
+		n2 = p3 * p4;
+		n3 = p5 * p6;
+
+		n = Math.min(Math.min(n1, n2), n3);
+		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
+
+		phi1 = (p1-1)*(p2-1);
+		phi2 = (p3-1)*(p4-1);
+		phi3 = (p5-1)*(p6-1);
+
+		do {
+			m = ThreadLocalRandom.current().nextLong(n-1);
+		} while (Algorithms.numberOfOnes(m)!=3 || Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
+
+		do {
+			e = ThreadLocalRandom.current().nextLong(n-1);
+		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
+		System.out.println("e=" + e);
+
+		m1 = (int) Algorithms.ExpMod(m, e, n1);
+		m2 = (int) Algorithms.ExpMod(m, e, n2);
+		m3 = (int) Algorithms.ExpMod(m, e, n3);
+		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
+
+		System.out.println(String.format("A4 --> m = %d",Algorithms.a4(n1,n2,n3,e,m1,m2,m3)));
+		System.out.println("m=" + m);
 
 	}
 
