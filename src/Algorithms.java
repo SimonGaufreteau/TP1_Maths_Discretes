@@ -180,71 +180,28 @@ public class Algorithms {
 	/**
 	 * Algorithme non polynomial A1 pour la question 11. Calcul de phi(n) avec une méthode naïve --> non polynomial.
 	 */
-	public static int a1(int n1,int n2,int n3) {
-		int n = Math.min(Math.min(n1, n2), n3);
-		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
-
+	public static long a1(int n1,int n2,int n3,int e,int m1,int m2,int m3) {
 		int phi1 = Algorithms.calculPhi(n1);
-		System.out.println("phi1=" + phi1);
-		int phi2 = Algorithms.calculPhi(n2);
-		System.out.println("phi2=" + phi2);
-		int phi3 = Algorithms.calculPhi(n3);
-		System.out.println("phi3=" + phi3);
-
-		int e;
-		do {
-			e = random.nextInt(n - 2) + 1;
-		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
-		System.out.println("e=" + e);
-
-		int m;
-		do {
-			m = random.nextInt(n - 2) + 1;
-		} while (euclideEtendu(m, n1)[0] != 1 || euclideEtendu(m, n2)[0] != 1 || euclideEtendu(m, n3)[0] != 1);
-
-		long m1 = ExpMod(m, e, n1);
-		long m2 = ExpMod(m, e, n2);
-		long m3 = ExpMod(m, e, n3);
-		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
-
-		return m;
+		printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
+		int d=euclideEtendu(e,phi1)[1];
+		if(d<0) d+=phi1;
+		return ExpMod(m1,d,n1);
 	}
 
 	/**
-	 * ALgotithme polynomial A2 pour la question 12. Calcul de phi(ni) avec le pgcd.
+	 * Algorithme polynomial A2 pour la question 12. Calcul de phi(ni) avec le pgcd.
 	 */
-	public static int a2(int n1,int n2,int n3){
-		int n = Math.min(Math.min(n1, n2), n3);
-		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
-
+	public static long a2(int n1,int n2,int n3,int e,int m1,int m2,int m3){
 		int pgcd = euclideEtendu(n1,n2)[0];
 		System.out.println("pgcd = " + pgcd);
 
 		int phi1 = ((n1/pgcd)-1)*(pgcd-1);
 		System.out.println("phi1=" + phi1);
-		int phi2 = ((n2/pgcd)-1)*(pgcd-1);
-		System.out.println("phi2=" + phi2);
-		int phi3 = ((n3/pgcd)-1)*(pgcd-1);
-		System.out.println("phi3=" + phi3);
 
-
-		// On utilise la même méthode de calcul pour e, m et les Mi
-		int e;
-		do {
-			e = random.nextInt(n - 2) + 1;
-		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
-		System.out.println("e=" + e);
-
-		int m;
-		do {
-			m = random.nextInt(n - 2) + 1;
-		} while (euclideEtendu(m, n1)[0] != 1 || euclideEtendu(m, n2)[0] != 1 || euclideEtendu(m, n3)[0] != 1);
-
-		long m1 = ExpMod(m, e, n1);
-		long m2 = ExpMod(m, e, n2);
-		long m3 = ExpMod(m, e, n3);
-		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
-
-		return m;
+		int d=euclideEtendu(e,phi1)[1];
+		printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
+		if(d<0) d+=phi1;
+		return ExpMod(m1,d,n1);
 	}
+
 }
