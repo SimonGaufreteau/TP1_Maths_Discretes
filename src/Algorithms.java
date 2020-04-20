@@ -89,16 +89,7 @@ public class Algorithms {
 		return compteur;
 	}
 
-	/**
-	 * Méthode naïve pour le calcul de phi(n).
-	 */
-	public static int calculPhi(int n) {
-		int compteur = 0;
-		for (int j = 0; j < n; j++) {
-			compteur += testPrimaliteNaif(j) ? 1 : 0;
-		}
-		return compteur;
-	}
+
 
 	/**
 	 * Calcule le nombre d'entiers premiers entre 2^i et 2^(i+1) avec le test de Fermat. Pour la méthode naive mais exacte, utiliser nombrePremiersNaif
@@ -164,6 +155,17 @@ public class Algorithms {
 	}
 
 
+	/**
+	 * Méthode naïve pour le calcul de phi(n).
+	 */
+	public static int calculPhi(int n) {
+		int phi = 0;
+		for (int j = 0; j < n; j++) {
+			if (euclideEtendu(j, n)[0] == 1) phi++;
+		}
+		return phi;
+	}
+
 	//TODO : Explication de la question 10 (voir papier)
 
 	public static Pair<Integer, Long> verifRSA(int n, int e, int d) {
@@ -185,9 +187,9 @@ public class Algorithms {
 		int phi1 = Algorithms.calculPhi(n1);
 		System.out.println("phi1=" + phi1);
 		int phi2 = Algorithms.calculPhi(n2);
-		System.out.println("phi1=" + phi2);
+		System.out.println("phi2=" + phi2);
 		int phi3 = Algorithms.calculPhi(n3);
-		System.out.println("phi1=" + phi3);
+		System.out.println("phi3=" + phi3);
 
 		int e;
 		do {
@@ -208,7 +210,41 @@ public class Algorithms {
 		return m;
 	}
 
+	/**
+	 * ALgotithme polynomial A2 pour la question 12. Calcul de phi(ni) avec le pgcd.
+	 */
 	public static int a2(int n1,int n2,int n3){
-		return 0;
+		int n = Math.min(Math.min(n1, n2), n3);
+		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
+
+		int pgcd = euclideEtendu(n1,n2)[0];
+		System.out.println("pgcd = " + pgcd);
+
+		int phi1 = ((n1/pgcd)-1)*(pgcd-1);
+		System.out.println("phi1=" + phi1);
+		int phi2 = ((n2/pgcd)-1)*(pgcd-1);
+		System.out.println("phi2=" + phi2);
+		int phi3 = ((n3/pgcd)-1)*(pgcd-1);
+		System.out.println("phi3=" + phi3);
+
+
+		// On utilise la même méthode de calcul pour e, m et les Mi
+		int e;
+		do {
+			e = random.nextInt(n - 2) + 1;
+		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
+		System.out.println("e=" + e);
+
+		int m;
+		do {
+			m = random.nextInt(n - 2) + 1;
+		} while (euclideEtendu(m, n1)[0] != 1 || euclideEtendu(m, n2)[0] != 1 || euclideEtendu(m, n3)[0] != 1);
+
+		long m1 = ExpMod(m, e, n1);
+		long m2 = ExpMod(m, e, n2);
+		long m3 = ExpMod(m, e, n3);
+		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
+
+		return m;
 	}
 }

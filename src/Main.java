@@ -80,7 +80,7 @@ public class Main {
 		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),n,pair.getKey()%n));*/
 
 		//Question 11 : A1
-		int k=11;
+		/*int k=15;
 		System.out.println("Résultat de la question 11");
 		int p1 = Algorithms.genPremiers(k);
 		int p2 = Algorithms.genPremiers(k);
@@ -93,9 +93,21 @@ public class Main {
 		int n1 = p1 * p2;
 		int n2 = p3 * p4;
 		int n3 = p5 * p6;
-		System.out.println("Resultat : m="+Algorithms.a1(n1,n2,n3));
+		System.out.println("Resultat : m="+Algorithms.a1(n1,n2,n3));*/
 
+		//Question 12 : A2
+		int k=15;
+		System.out.println("Résultat de la question 12");
+		int p1 = Algorithms.genPremiers(k);
+		int p2 = Algorithms.genPremiers(k);
+		int p4 = Algorithms.genPremiers(k);
+		int p6 = Algorithms.genPremiers(k);
+		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p1, p4, p1, p6));
 
+		int n1 = p1 * p2;
+		int n2 = p1 * p4;
+		int n3 = p1 * p6;
+		System.out.println("Resultat : m="+Algorithms.a2(n1,n2,n3));
 	}
 
 }
