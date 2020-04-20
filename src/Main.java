@@ -81,7 +81,7 @@ public class Main {
 		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),n,pair.getKey()%n));*/
 
 		//Question 11 : A1
-		int k=13;
+		int k=10;
 		System.out.println("Résultat de la question 11");
 		int p1 = Algorithms.genPremiers(k);
 		int p2 = Algorithms.genPremiers(k);
@@ -106,7 +106,6 @@ public class Main {
 		do {
 			m = random.nextInt(n - 2) + 1;
 		} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
-		System.out.println("m=" + m);
 
 		int e;
 		do {
@@ -119,8 +118,7 @@ public class Main {
 		int m3 = (int) Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
-
-		System.out.println();
+		System.out.println("m=" + m);
 		System.out.println(String.format("A1 --> m = %d",Algorithms.a1(n1,n2,n3,e,m1,m2,m3)));
 
 
@@ -146,7 +144,6 @@ public class Main {
 		do {
 			m = random.nextInt(n - 2) + 1;
 		} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
-		System.out.println("m=" + m);
 
 		do {
 			e = random.nextInt(n - 2) + 1;
@@ -157,8 +154,54 @@ public class Main {
 		m2 = (int) Algorithms.ExpMod(m, e, n2);
 		m3 = (int) Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
-
+		System.out.println("m=" + m);
 		System.out.println("A2 --> m = "+Algorithms.a2(n1,n2,n3,e,m1,m2,m3));
+
+
+		//Question 13
+		System.out.println("\nRésultat de la question 13");
+
+		e=3;
+		do {
+			do{
+				p1 = Algorithms.genPremiers(k);
+				p2 = Algorithms.genPremiers(k);
+				p3 = Algorithms.genPremiers(k);
+				p4 = Algorithms.genPremiers(k);
+				p5 = Algorithms.genPremiers(k);
+				p6 = Algorithms.genPremiers(k);
+				n1 = p1 * p2;
+				n2 = p3 * p4;
+				n3 = p5 * p6;
+			}while(Algorithms.euclideEtendu(n1, n2)[0] != 1 || Algorithms.euclideEtendu(n2, n3)[0] != 1 || Algorithms.euclideEtendu(n1, n3)[0] != 1);
+
+			n = Math.min(Math.min(n1, n2), n3);
+			phi1 = (p1-1)*(p2-1);
+			phi2 = (p3-1)*(p4-1);
+			phi3 = (p5-1)*(p6-1);
+
+			do {
+				m = random.nextInt(n - 2) + 1;
+			} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
+
+		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
+		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p3, p4, p5, p6));
+		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
+		/*Algorithms.printResultEuclideEtendu(n1,n2,Algorithms.euclideEtendu(n1, n2));
+		Algorithms.printResultEuclideEtendu(n2,n3,Algorithms.euclideEtendu(n2, n3));
+		Algorithms.printResultEuclideEtendu(n1,n3,Algorithms.euclideEtendu(n1, n3));*/
+
+		System.out.println("e=" + e);
+
+		m1 = (int) Algorithms.ExpMod(m, e, n1);
+		m2 = (int) Algorithms.ExpMod(m, e, n2);
+		m3 = (int) Algorithms.ExpMod(m, e, n3);
+		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
+
+		long res = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
+		System.out.println("m=" + m);
+		System.out.println("A3 --> m = "+((long)Math.pow(res,1.0/3)+1));
+
 	}
 
 }

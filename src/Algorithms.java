@@ -1,6 +1,5 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Random;
 
 public class Algorithms {
@@ -13,17 +12,17 @@ public class Algorithms {
 	 * @param b int
 	 * @return Un tableau d'entier : 0 --> pgcd de a et b / 1 et 2 --> coefficients de Bézout u et v tels que a*u+b*v=pgcd(a,b).
 	 */
-	public static int[] euclideEtendu(int a, int b) {
+	public static long[] euclideEtendu(long a, long b) {
 		return euclideEtenduRecursif(a, b);
 	}
 
-	private static int[] euclideEtenduRecursif(int a, int b) {
-		int[] result = new int[3];
+	private static long[] euclideEtenduRecursif(long a, long b) {
+		long[] result = new long[3];
 		if (b == 0) {
 			result[0] = a;
 			result[1] = 1;
 		} else {
-			int[] temp = euclideEtenduRecursif(b, a % b);
+			long[] temp = euclideEtenduRecursif(b, a % b);
 			result[0] = temp[0];
 			result[1] = temp[2];
 			result[2] = temp[1] - (a / b) * temp[2];
@@ -33,16 +32,39 @@ public class Algorithms {
 
 	/**
 	 * Affiche le résultat de l'éxecution de l'algorithme d'Euclide étendu donné en paramètre.
-	 *
 	 * @param a      int
 	 * @param b      int
 	 * @param result Resultat de l'éxecution de l'algorithme d'Euclide étendu définit dans "euclideEtendu" avec les paramètres a et b.
 	 */
-	public static void printResultEuclideEtendu(int a, int b, int[] result) {
-		int resultMult = a * result[1] + b * result[2];
+	public static void printResultEuclideEtendu(long a, long b, long[] result) {
+		long resultMult = a * result[1] + b * result[2];
 		System.out.println(String.format("Résultat de l'algo euclide étendu. Pgcd de %d et %d : %d. %d*%d + %d*%d = %d.", a, b, result[0], a, result[1], b, result[2], resultMult));
 	}
 
+
+	public static BigInteger[] euclideEtendu(BigInteger a, BigInteger b) {
+		return euclideEtenduRecursif(a, b);
+	}
+
+	private static BigInteger[] euclideEtenduRecursif(BigInteger a, BigInteger b) {
+		BigInteger[] result = new BigInteger[3];
+		if (b.equals(BigInteger.ZERO)) {
+			result[0] = a;
+			result[1] = BigInteger.ONE;
+			result[2] = BigInteger.ZERO;
+		} else {
+			BigInteger[] temp = euclideEtenduRecursif(b, a.mod(b));
+			result[0] = temp[0];
+			result[1] = temp[2];
+			result[2] = temp[1].subtract((a.divide(b)).multiply(temp[2]));
+		}
+		return result;
+	}
+
+	public static void printResultEuclideEtendu(BigInteger a, BigInteger b, BigInteger[] result) {
+		BigInteger resultMult = a.multiply(result[1]).add(b.multiply(result[2]));
+		System.out.println(String.format("Résultat de l'algo euclide étendu. Pgcd de %d et %d : %d. %d*%d + %d*%d = %d.", a, b, result[0], a, result[1], b, result[2], resultMult));
+	}
 
 	/**
 	 * Implémentation de l'algorithme de l'exponentiation modulaire : a^k mod n.
@@ -182,8 +204,8 @@ public class Algorithms {
 	 */
 	public static long a1(int n1,int n2,int n3,int e,int m1,int m2,int m3) {
 		int phi1 = Algorithms.calculPhi(n1);
-		printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
-		int d=euclideEtendu(e,phi1)[1];
+		//printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
+		long d=euclideEtendu(e,phi1)[1];
 		if(d<0) d+=phi1;
 		return ExpMod(m1,d,n1);
 	}
@@ -192,16 +214,34 @@ public class Algorithms {
 	 * Algorithme polynomial A2 pour la question 12. Calcul de phi(ni) avec le pgcd.
 	 */
 	public static long a2(int n1,int n2,int n3,int e,int m1,int m2,int m3){
-		int pgcd = euclideEtendu(n1,n2)[0];
-		System.out.println("pgcd = " + pgcd);
-
-		int phi1 = ((n1/pgcd)-1)*(pgcd-1);
-		System.out.println("phi1=" + phi1);
-
-		int d=euclideEtendu(e,phi1)[1];
-		printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
+		long pgcd = euclideEtendu(n1,n2)[0];
+		long phi1 = ((n1/pgcd)-1)*(pgcd-1);
+		long d=euclideEtendu(e,phi1)[1];
 		if(d<0) d+=phi1;
 		return ExpMod(m1,d,n1);
 	}
+
+	public static long a3(int n1,int n2,int n3,int e,int m1,int m2,int m3) {
+		BigInteger n = new BigInteger(String.valueOf(n1));
+		n= n.multiply(BigInteger.valueOf(n2));
+		n= n.multiply(BigInteger.valueOf(n3));
+
+		BigInteger nc1 = n.divide(BigInteger.valueOf(n1));
+		BigInteger nc2 = n.divide(BigInteger.valueOf(n2));
+		BigInteger nc3 = n.divide(BigInteger.valueOf(n3));
+
+		/*printResultEuclideEtendu(BigInteger.valueOf(n1),nc1,euclideEtendu(BigInteger.valueOf(n1), nc1));
+		printResultEuclideEtendu(BigInteger.valueOf(n2),nc2,euclideEtendu(BigInteger.valueOf(n2), nc2));
+		printResultEuclideEtendu(BigInteger.valueOf(n3),nc3,euclideEtendu(BigInteger.valueOf(n3), nc3));*/
+
+		BigInteger e1 = euclideEtendu(BigInteger.valueOf(n1), nc1)[2].multiply(nc1);
+		BigInteger e2 = euclideEtendu(BigInteger.valueOf(n2), nc2)[2].multiply(nc2);
+		BigInteger e3 = euclideEtendu(BigInteger.valueOf(n3), nc3)[2].multiply(nc3);
+
+		BigInteger m =(e1.multiply(BigInteger.valueOf(m1))).add(e2.multiply(BigInteger.valueOf(m2)).add(e3.multiply(BigInteger.valueOf(m3))));
+		return m.mod(n).longValue();
+	}
+
+
 
 }
