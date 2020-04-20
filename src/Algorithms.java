@@ -178,19 +178,7 @@ public class Algorithms {
 	/**
 	 * Algorithme non polynomial A1 pour la question 11. Calcul de phi(n) avec une méthode naïve --> non polynomial.
 	 */
-	public static int a1(int k) {
-		System.out.println("Résultat de la question 11");
-		int p1 = Algorithms.genPremiers(k);
-		int p2 = Algorithms.genPremiers(k);
-		int p3 = Algorithms.genPremiers(k);
-		int p4 = Algorithms.genPremiers(k);
-		int p5 = Algorithms.genPremiers(k);
-		int p6 = Algorithms.genPremiers(k);
-		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p3, p4, p5, p6));
-
-		int n1 = p1 * p2;
-		int n2 = p3 * p4;
-		int n3 = p5 * p6;
+	public static int a1(int n1,int n2,int n3) {
 		int n = Math.min(Math.min(n1, n2), n3);
 		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
 
@@ -218,5 +206,9 @@ public class Algorithms {
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
 		return m;
+	}
+
+	public static int a2(int n1,int n2,int n3){
+		return 0;
 	}
 }
