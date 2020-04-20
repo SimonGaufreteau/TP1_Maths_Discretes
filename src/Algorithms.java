@@ -1,5 +1,7 @@
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Algorithms {
@@ -180,7 +182,7 @@ public class Algorithms {
 	/**
 	 * Méthode naïve pour le calcul de phi(n).
 	 */
-	public static int calculPhi(int n) {
+	public static int calculPhi(long n) {
 		int phi = 0;
 		for (int j = 0; j < n; j++) {
 			if (euclideEtendu(j, n)[0] == 1) phi++;
@@ -202,7 +204,7 @@ public class Algorithms {
 	/**
 	 * Algorithme non polynomial A1 pour la question 11. Calcul de phi(n) avec une méthode naïve --> non polynomial.
 	 */
-	public static long a1(int n1,int n2,int n3,int e,int m1,int m2,int m3) {
+	public static long a1(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
 		int phi1 = Algorithms.calculPhi(n1);
 		//printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
 		long d=euclideEtendu(e,phi1)[1];
@@ -213,7 +215,7 @@ public class Algorithms {
 	/**
 	 * Algorithme polynomial A2 pour la question 12. Calcul de phi(ni) avec le pgcd.
 	 */
-	public static long a2(int n1,int n2,int n3,int e,int m1,int m2,int m3){
+	public static long a2(long n1,long n2,long n3,long e,long m1,long m2,long m3){
 		long pgcd = euclideEtendu(n1,n2)[0];
 		long phi1 = ((n1/pgcd)-1)*(pgcd-1);
 		long d=euclideEtendu(e,phi1)[1];
@@ -221,7 +223,7 @@ public class Algorithms {
 		return ExpMod(m1,d,n1);
 	}
 
-	public static long a3(int n1,int n2,int n3,int e,int m1,int m2,int m3) {
+	public static long a3(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
 		BigInteger n = new BigInteger(String.valueOf(n1));
 		n= n.multiply(BigInteger.valueOf(n2));
 		n= n.multiply(BigInteger.valueOf(n3));
@@ -243,5 +245,54 @@ public class Algorithms {
 	}
 
 
+	public static long a4(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
+		long n = Math.min(Math.min(n1,n2),n3);
 
-}
+		char[] binaryString = Long.toBinaryString(n).toCharArray();
+
+		int tempInt;
+		for (int j=3;j<=binaryString.length;j++){
+			int[] binaryTab = new int[j];
+			binaryTab[binaryTab.length-1]=1;
+			for(int i=0;i<j-1;i++){
+				binaryTab[i]=1;
+				/*System.out.println(tempInt);
+				System.out.println(Arrays.toString(binaryTab));*/
+				for(int k=i+1;k<j-1;k++){
+					binaryTab[k]=1;
+					tempInt= getIntFromBit(binaryTab);
+					//System.out.println(Integer.toBinaryString(tempInt));
+					if(euclideEtendu(tempInt,n1)[0]==1 && euclideEtendu(tempInt,n2)[0]==1 && euclideEtendu(tempInt,n3)[0]==1){
+						//System.out.println(tempInt);
+						if(ExpMod(tempInt,e,n1)==m1 && ExpMod(tempInt,e,n2)==m2 && ExpMod(tempInt,e,n3)==m3){
+							return tempInt;
+						}
+					}
+					binaryTab[k]=0;
+				}
+				binaryTab[i]=0;
+			}
+		}
+
+		return 0;
+	}
+
+
+	private static int getIntFromBit(int[] bitTab){
+		int res=0;
+		for(int i=0;i<bitTab.length;i++){
+			if(bitTab[i]==1)res+=Math.pow(2,i);
+		}
+		return res;
+	}
+
+	public static int numberOfOnes(long n){
+		String s = Long.toBinaryString(n);
+		int compteur = 0;
+		for(int i=0;i<s.length();i++){
+			if(s.charAt(i)=='1')compteur++;
+		}
+		return compteur;
+	}
+
+	}
