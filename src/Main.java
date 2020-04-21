@@ -83,7 +83,7 @@ public class Main {
 
 		long e;
 		long[] res;
-		k=15;
+		k=10;
 		//int borne=Math.abs(random.nextInt());
 		int premierEntier = Algorithms.genPremiers(k);
 		int deuxiemeEntier = Algorithms.genPremiers(k);

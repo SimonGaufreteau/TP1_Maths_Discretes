@@ -190,12 +190,10 @@ public class Algorithms {
 		return phi;
 	}
 
-	//TODO : Explication de la question 10 (voir papier)
-
 	public static Pair<Long, Long> verifRSA(long n, long e, long d) {
 		long x;
 		do {
-			x= ThreadLocalRandom.current().nextLong(n);
+			x= ThreadLocalRandom.current().nextLong(n*4);
 		} while (euclideEtendu(x, n)[0] != 1);
 		return new Pair<>(x, ExpMod(x, e * d, n));
 	}
