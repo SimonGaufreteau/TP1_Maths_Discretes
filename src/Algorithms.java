@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Algorithms {
 	public static Random random = new Random();
@@ -95,8 +96,8 @@ public class Algorithms {
 	/**
 	 * Test de primalité naive sur un entier n.
 	 */
-	public static boolean testPrimaliteNaif(int n) {
-		for (int i = 2; i <= Math.sqrt(n); i++) {
+	public static boolean testPrimaliteNaif(long n) {
+		for (long i = 2; i <= Math.sqrt(n); i++) {
 			if (n % i == 0) {
 				return false;
 			}
@@ -157,13 +158,10 @@ public class Algorithms {
 	 *
 	 * @return Une paire contenant la décomposition de n.
 	 */
-	public static Pair<Integer, Integer> phiToFact(int n, int phi) {
-		for (int i = 0; i < n; i++) {
-			for (int j = i + 1; j < n; j++) {
-				if (i * j == n && (i - 1) * (j - 1) == phi) return new Pair<>(i, j);
-			}
-		}
-		return new Pair<>(1, n);
+	public static Pair<Long, Long> phiToFact(long n, long phi) {
+		long b= phi-n-1;
+		double racine = Math.sqrt(b*b-4*n);
+		return new Pair<>((long)(-b-racine)/2,(long) (-b+racine)/2);
 	}
 
 
@@ -176,7 +174,7 @@ public class Algorithms {
 		for (int i = 1; i < n; i++) {
 			if (euclideEtendu(i, n)[0] == 1) phi++;
 		}
-		System.out.println(phi);
+		System.out.println(String.format("Verification de phi = %d / (%d-1)(%d-1) = %d",phi,p,q,(p-1)*(q-1)));
 		return phi == (p - 1) * (q - 1);
 	}
 
@@ -194,10 +192,10 @@ public class Algorithms {
 
 	//TODO : Explication de la question 10 (voir papier)
 
-	public static Pair<Integer, Long> verifRSA(int n, int e, int d) {
-		int x;
+	public static Pair<Long, Long> verifRSA(long n, long e, long d) {
+		long x;
 		do {
-			x = random.nextInt(n * n);
+			x= ThreadLocalRandom.current().nextLong(n);
 		} while (euclideEtendu(x, n)[0] != 1);
 		return new Pair<>(x, ExpMod(x, e * d, n));
 	}
@@ -208,7 +206,6 @@ public class Algorithms {
 	 */
 	public static long a1(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
 		int phi1 = Algorithms.calculPhi(n1);
-		//printResultEuclideEtendu(e,phi1,euclideEtendu(e,phi1));
 		long d=euclideEtendu(e,phi1)[1];
 		if(d<0) d+=phi1;
 		return ExpMod(m1,d,n1);
@@ -225,7 +222,11 @@ public class Algorithms {
 		return ExpMod(m1,d,n1);
 	}
 
+	/**
+	 * Algorithme polynoiam A3 pour la question 13. Utilisisation du théorème des restes chinois.
+	 */
 	public static BigInteger a3(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
+		//Utilisation des BigInteger pour éviter le dépassement mémoire lors de la multiplication de 3 long
 		BigInteger n = new BigInteger(String.valueOf(n1));
 		n= n.multiply(BigInteger.valueOf(n2));
 		n= n.multiply(BigInteger.valueOf(n3));
@@ -233,10 +234,6 @@ public class Algorithms {
 		BigInteger nc1 = n.divide(BigInteger.valueOf(n1));
 		BigInteger nc2 = n.divide(BigInteger.valueOf(n2));
 		BigInteger nc3 = n.divide(BigInteger.valueOf(n3));
-
-		/*printResultEuclideEtendu(BigInteger.valueOf(n1),nc1,euclideEtendu(BigInteger.valueOf(n1), nc1));
-		printResultEuclideEtendu(BigInteger.valueOf(n2),nc2,euclideEtendu(BigInteger.valueOf(n2), nc2));
-		printResultEuclideEtendu(BigInteger.valueOf(n3),nc3,euclideEtendu(BigInteger.valueOf(n3), nc3));*/
 
 		BigInteger e1 = (euclideEtendu(BigInteger.valueOf(n1), nc1)[2]).multiply(nc1);
 		BigInteger e2 = (euclideEtendu(BigInteger.valueOf(n2), nc2)[2]).multiply(nc2);
@@ -247,35 +244,34 @@ public class Algorithms {
 	}
 
 
+	/**
+	 * Algorithme polynomial pour la question 14. Teste toutes les possibilités pour m puisque m est de la forme 100010100, 1000100 ou 100000. Complexité en temps : O(n^3). Complexité mémoire : O(n).
+	 */
 	public static long a4(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
 		long n = Math.min(Math.min(n1,n2),n3);
 
 		char[] binaryString = Long.toBinaryString(n).toCharArray();
 
 		int tempInt;
-		for (int j=3;j<=binaryString.length;j++){
+		for (int j=1;j<=binaryString.length;j++){
 			int[] binaryTab = new int[j];
 			binaryTab[binaryTab.length-1]=1;
 			for(int i=0;i<j-1;i++){
 				binaryTab[i]=1;
-				/*System.out.println(tempInt);
-				System.out.println(Arrays.toString(binaryTab));*/
-				for(int k=i+1;k<j-1;k++){
+				for(int k=i;k<j-1;k++){
 					binaryTab[k]=1;
 					tempInt= getIntFromBit(binaryTab);
-					//System.out.println(Integer.toBinaryString(tempInt));
 					if(euclideEtendu(tempInt,n1)[0]==1 && euclideEtendu(tempInt,n2)[0]==1 && euclideEtendu(tempInt,n3)[0]==1){
-						//System.out.println(tempInt);
 						if(ExpMod(tempInt,e,n1)==m1 && ExpMod(tempInt,e,n2)==m2 && ExpMod(tempInt,e,n3)==m3){
 							return tempInt;
 						}
 					}
-					binaryTab[k]=0;
+					if(k!=i)
+						binaryTab[k]=0;
 				}
 				binaryTab[i]=0;
 			}
 		}
-
 		return 0;
 	}
 

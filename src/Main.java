@@ -7,29 +7,32 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 	public static void main(String[] args) {
 		final long nanoToSecond = (long) Math.pow(10,9);
-		Random random = new Random();
-		/*int a=120;
-		int b=12;
-		int[] tab= Algorithms.euclideEtendu(a,b);
+		System.out.println("\nRésultat de la question 1");
+		int a=ThreadLocalRandom.current().nextInt();
+		int b=ThreadLocalRandom.current().nextInt();
+		long[] tab= Algorithms.euclideEtendu(a,b);
 		Algorithms.printResultEuclideEtendu(a,b,tab);
 
-		int p = Algorithms.ExpMod(4,13,497);
-		System.out.println("Résultat de l'exp modulaire de "+4+"^"+13+" mod "+497+" = "+p);
+		System.out.println("\nRésultat de la question 2");
+		long resultat = Algorithms.ExpMod(4,13,497);
+		System.out.println("Résultat de l'exp modulaire de "+4+"^"+13+" mod "+497+" = "+resultat);
 
+		System.out.println("\nRésultat de la question 3");
 		Random r = new Random();
-		int borne = 65536;
+		int borne1 = 65536;
 		for(int i=0;i<100;i++){
-			int alea = r.nextInt(borne)+borne;
+			int alea = r.nextInt(borne1)+borne1;
 			boolean test = Algorithms.testPrimaliteNaif(alea);
 			if(test) {
 				System.out.println("Résultat du test de Fermat sur " + alea + " : " + Algorithms.testFermat(alea));
 				System.out.println("Résultat du test de primalité naïve sur " + alea + " : " + Algorithms.testPrimaliteNaif(alea) + "\n");
 			}
 		}
-*/
-		/*
-		int borneNbPremiers = 25;
-		for(int i=0;i<=borneNbPremiers;i++){
+
+		System.out.println("\nRésultat de la question 4 à 6");
+
+		int borneNbPremiers = 20;
+		for(int i=1;i<=borneNbPremiers;i++){
 			System.out.print("----- i = "+i+" -----\n");
 			int borneInf = (int)Math.pow(2,i);
 			int borneSup = (int)Math.pow(2,i+1);
@@ -47,44 +50,60 @@ public class Main {
 			System.out.println(String.format("Nombre de premiers pour i=%d avec Fermat (entre %d et %d) : %d",i,borneInf,borneSup,nombrePermiersFermat));
 			System.out.println(String.format("Nombre de non premiers détectés avec Fermat : %d",nombrePermiersFermat-nombrePremiersResultat));
 			System.out.println(String.format("Taux d'erreur de Fermat : %f %%",(double)((nombrePermiersFermat-nombrePremiersResultat)*100)/(borneSup-borneInf)));
-			System.out.println("Faux positifs : "+Algorithms.diffPremiersFermat(i));
+			//System.out.println("Faux positifs : "+Algorithms.diffPremiersFermat(i));
 			System.out.println("\n");
-		}*/
+		}
 
 		//Question 7 : GenPremiers
-		/*int k=25;
-		int generatedInt = Algorithms.genPremiers(k);
+		System.out.println("\nRésultat de la question 7");
+		int k=25;
+		long generatedInt = Algorithms.genPremiers(k);
 		System.out.println("Premier généré : "+generatedInt);
 		System.out.println("Avec la méthode naive, ce nombre est "+ (Algorithms.testPrimaliteNaif(generatedInt)?"premier":"non premier"));
-	*/
+
 		//Question 8 : PhiToFact
-		/*int n = 35;
-		int phi = 24;
-		Pair<Integer, Integer> phiToFact = Algorithms.phiToFact(n,phi);
+		System.out.println("\nRésultat de la question 8");
+		k=15;
+		int p=Algorithms.genPremiers(k);
+		int q=Algorithms.genPremiers(k);
+		long n = p*q;
+		long phi = (p-1)*(q-1);
+		Pair<Long, Long> phiToFact = Algorithms.phiToFact(n,phi);
 		System.out.println(String.format("Resultat de PhiToFact avec n=%d et phi(n)=%d --> %d*%d=%d",n,phi,phiToFact.getKey(),phiToFact.getValue(),phiToFact.getKey()*phiToFact.getValue()));
 
 		//Question 9 : VerifPhi
-		int p=7;
-		int q=5;
-		System.out.println(String.format("Resultat de verifPhi avec p=%d et q=%d (n=%d) : %b",p,q,p*q,Algorithms.verifPhi(p,q)));*/
+		System.out.println("\nRésultat de la question 9");
+		k=10;
+		p = Algorithms.genPremiers(k);
+		q = Algorithms.genPremiers(k);
+		System.out.println(String.format("Resultat de verifPhi avec p=%d et q=%d (n=%d) : %b",p,q,p*q,Algorithms.verifPhi(p,q)));
 
 		//Question 10 : verifRSA
-		/*Random random = new Random();
-		int e;
-		int[] res;
+		System.out.println("\nRésultat de la question 10");
+
+		long e;
+		long[] res;
+		k=15;
+		//int borne=Math.abs(random.nextInt());
+		int premierEntier = Algorithms.genPremiers(k);
+		int deuxiemeEntier = Algorithms.genPremiers(k);
+		long borne = premierEntier*deuxiemeEntier;
+		phi = (premierEntier-1)*(deuxiemeEntier-1);
+		//Algorithms.verifPhi(premierEntier,deuxiemeEntier);
+		System.out.println("n="+borne);
 		do{
-			e = random.nextInt(n);
+			e= ThreadLocalRandom.current().nextLong(borne);
 			res = Algorithms.euclideEtendu(e,phi);
 		} while (res[0]!=1 || res[1]<2);
-		int d=res[1];
-		Pair<Integer, Long> pair=Algorithms.verifRSA(n,e,d);
+		long d=res[1];
+		Pair<Long, Long> pair=Algorithms.verifRSA(borne,e,d);
 		System.out.println(String.format("Verification de la question 10. e*d mod phi = %d * %d mod %d = %d",e,d,phi,(e*d)%phi));
-		System.out.println(String.format("Résultat : %d",pair.getValue()));
-		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),n,pair.getKey()%n));*/
+		System.out.println(String.format("Résultat : x^(e*d) mod n = %d",pair.getValue()));
+		System.out.println(String.format("Verification : x(=%d) mod n(=%d) = %d",pair.getKey(),borne,pair.getKey()%borne));
 
 		//Question 11 : A1
-		int k=15;
-		System.out.println("Résultat de la question 11");
+		k=15;
+		System.out.println("\nRésultat de la question 11");
 		int p1 = Algorithms.genPremiers(k);
 		int p2 = Algorithms.genPremiers(k);
 		int p3 = Algorithms.genPremiers(k);
@@ -97,31 +116,30 @@ public class Main {
 		long n2 = p3 * p4;
 		long n3 = p5 * p6;
 
-		long n = Math.min(Math.min(n1, n2), n3);
+		n = Math.min(Math.min(n1, n2), n3);
 		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
 
-		int phi1 = (p1-1)*(p2-1);
-		int phi2 = (p3-1)*(p4-1);
-		int phi3 = (p5-1)*(p6-1);
+		long phi1 = (p1-1)*(p2-1);
+		long phi2 = (p3-1)*(p4-1);
+		long phi3 = (p5-1)*(p6-1);
 
 		long m;
 		do {
 			m = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
 
-		long e;
 		do {
 			e = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
 		System.out.println("e=" + e);
 
-		int m1 = (int) Algorithms.ExpMod(m, e, n1);
-		int m2 = (int) Algorithms.ExpMod(m, e, n2);
-		int m3 = (int) Algorithms.ExpMod(m, e, n3);
+		long m1 = Algorithms.ExpMod(m, e, n1);
+		long m2 = Algorithms.ExpMod(m, e, n2);
+		long m3 = Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
 		System.out.println("m=" + m);
-		//System.out.println(String.format("A1 --> m = %d",Algorithms.a1(n1,n2,n3,e,m1,m2,m3)));
+		System.out.println(String.format("A1 --> m = %d",Algorithms.a1(n1,n2,n3,e,m1,m2,m3)));
 
 
 		//Question 12
@@ -189,19 +207,16 @@ public class Main {
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
 		System.out.println(String.format("Paramètres : p1=%d, p2=%d, p3=%d, p4=%d, p5=%d, p6=%d", p1, p2, p3, p4, p5, p6));
 		System.out.println(String.format("n1=%d, n2=%d, n3=%d --> n=%d", n1, n2, n3, n));
-		/*Algorithms.printResultEuclideEtendu(e,phi1,Algorithms.euclideEtendu(e, phi1));
-		Algorithms.printResultEuclideEtendu(e,phi2,Algorithms.euclideEtendu(e, phi2));
-		Algorithms.printResultEuclideEtendu(e,phi3,Algorithms.euclideEtendu(e, phi3));*/
 
 		System.out.println("e=" + e);
 
-		m1 = (int) Algorithms.ExpMod(m, e, n1);
-		m2 = (int) Algorithms.ExpMod(m, e, n2);
-		m3 = (int) Algorithms.ExpMod(m, e, n3);
+		m1 = Algorithms.ExpMod(m, e, n1);
+		m2 = Algorithms.ExpMod(m, e, n2);
+		m3 = Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
-		BigInteger res = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
-		System.out.println("A3 --> m = "+Algorithms.NthRoot(res,3).longValue());
+		BigInteger resBig = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
+		System.out.println("A3 --> m = "+Algorithms.NthRoot(resBig,3).longValue());
 		System.out.println("m=" + m);
 
 
@@ -228,20 +243,20 @@ public class Main {
 
 		do {
 			m = ThreadLocalRandom.current().nextLong(n-1);
-		} while (Algorithms.numberOfOnes(m)!=3 || Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
+		} while (Algorithms.numberOfOnes(m)>3 || Algorithms.euclideEtendu(m, n1)[0] != 1 || Algorithms.euclideEtendu(m, n2)[0] != 1 || Algorithms.euclideEtendu(m, n3)[0] != 1);
 
 		do {
 			e = ThreadLocalRandom.current().nextLong(n-1);
 		} while (Algorithms.euclideEtendu(e, phi1)[0] != 1 || Algorithms.euclideEtendu(e, phi2)[0] != 1 || Algorithms.euclideEtendu(e, phi3)[0] != 1);
 		System.out.println("e=" + e);
 
-		m1 = (int) Algorithms.ExpMod(m, e, n1);
-		m2 = (int) Algorithms.ExpMod(m, e, n2);
-		m3 = (int) Algorithms.ExpMod(m, e, n3);
+		m1 = Algorithms.ExpMod(m, e, n1);
+		m2 = Algorithms.ExpMod(m, e, n2);
+		m3 = Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
 		System.out.println(String.format("A4 --> m = %d",Algorithms.a4(n1,n2,n3,e,m1,m2,m3)));
-		System.out.println("m=" + m);
+		System.out.println("m=" + m +", nombre de 1 non-nuls = "+Algorithms.numberOfOnes(m));
 
 	}
 
