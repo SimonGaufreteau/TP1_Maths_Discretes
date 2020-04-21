@@ -1,9 +1,7 @@
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -129,15 +127,6 @@ public class Algorithms {
 		return compteur;
 	}
 
-	public static ArrayList<Integer> diffPremiersFermat(int i) {
-		ArrayList<Integer> tab = new ArrayList<>();
-		for (int j = (int) Math.pow(2, i); j < (int) Math.pow(2, i + 1); j++) {
-			if (testFermat(j) && !testPrimaliteNaif(j))
-				tab.add(j);
-		}
-		return tab;
-	}
-
 
 	/**
 	 * @param k Nombre de bits
@@ -170,10 +159,7 @@ public class Algorithms {
 	 */
 	public static boolean verifPhi(int p, int q) {
 		int n = p * q;
-		int phi = 0;
-		for (int i = 1; i < n; i++) {
-			if (euclideEtendu(i, n)[0] == 1) phi++;
-		}
+		int phi = calculPhi(n);
 		System.out.println(String.format("Verification de phi = %d / (%d-1)(%d-1) = %d",phi,p,q,(p-1)*(q-1)));
 		return phi == (p - 1) * (q - 1);
 	}
@@ -221,9 +207,9 @@ public class Algorithms {
 	}
 
 	/**
-	 * Algorithme polynoiam A3 pour la question 13. Utilisisation du théorème des restes chinois.
+	 * Algorithme polynomial A3 pour la question 13. Utilisisation du théorème des restes chinois.
 	 */
-	public static BigInteger a3(long n1,long n2,long n3,long e,long m1,long m2,long m3) {
+	public static BigDecimal a3(long n1, long n2, long n3, long e, long m1, long m2, long m3) {
 		//Utilisation des BigInteger pour éviter le dépassement mémoire lors de la multiplication de 3 long
 		BigInteger n = new BigInteger(String.valueOf(n1));
 		n= n.multiply(BigInteger.valueOf(n2));
@@ -238,7 +224,7 @@ public class Algorithms {
 		BigInteger e3 = (euclideEtendu(BigInteger.valueOf(n3), nc3)[2]).multiply(nc3);
 
 		BigInteger m =(e1.multiply(BigInteger.valueOf(m1))).add(e2.multiply(BigInteger.valueOf(m2)).add(e3.multiply(BigInteger.valueOf(m3))));
-		return m.mod(n);
+		return NthRoot(m.mod(n),3);
 	}
 
 

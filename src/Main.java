@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class Main {
 
 		System.out.println("\nRésultat de la question 4 à 6");
 
-		int borneNbPremiers = 20;
+		int borneNbPremiers = 30;
 		for(int i=1;i<=borneNbPremiers;i++){
 			System.out.print("----- i = "+i+" -----\n");
 			int borneInf = (int)Math.pow(2,i);
@@ -215,8 +216,8 @@ public class Main {
 		m3 = Algorithms.ExpMod(m, e, n3);
 		System.out.println(String.format("M1=%d, M2=%d, M3=%d", m1, m2, m3));
 
-		BigInteger resBig = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
-		System.out.println("A3 --> m = "+Algorithms.NthRoot(resBig,3).longValue());
+		BigDecimal resBig = Algorithms.a3(n1,n2,n3,e,m1,m2,m3);
+		System.out.println("A3 --> m = "+resBig.longValue());
 		System.out.println("m=" + m);
 
 
