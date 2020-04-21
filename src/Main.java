@@ -25,7 +25,7 @@ public class Main {
 			boolean test = Algorithms.testPrimaliteNaif(alea);
 			if(test) {
 				System.out.println("Résultat du test de Fermat sur " + alea + " : " + Algorithms.testFermat(alea));
-				System.out.println("Résultat du test de primalité naïve sur " + alea + " : " + Algorithms.testPrimaliteNaif(alea) + "\n");
+				System.out.println("Résultat du test de primalité naïve sur " + alea + " : " + true + "\n");
 			}
 		}
 
